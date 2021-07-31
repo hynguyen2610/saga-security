@@ -19,6 +19,8 @@ export function configureFakeBackend() {
                         return register();
                     case url.endsWith('/users') && method === 'GET':
                         return getUsers();
+                    case url.endsWith("/profile") && method === 'GET':
+                        return getUsers();    
                     case url.match(/\/users\/\d+$/) && method === 'DELETE':
                         return deleteUser();
                     default:
