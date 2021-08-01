@@ -1,5 +1,6 @@
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
+let products = JSON.parse(localStorage.getItems('products')) || [];
     
 export function configureFakeBackend() {
     let realFetch = window.fetch;
@@ -73,6 +74,22 @@ export function configureFakeBackend() {
                 users = users.filter(x => x.id !== idFromUrl());
                 localStorage.setItem('users', JSON.stringify(users));
                 return ok();
+            }
+
+            function addProduct() {
+                const product = body;
+
+                if (products.find(x => x.productName == product.productName)) {
+                    return error(`Product name ${product.productName} is already taken`);
+                }
+                products.push(product);
+                localStorage.setItem('products', JSON.stringify(product));
+                return ok();
+            }
+
+            function getProducts() {
+                if (!isLoggedIn()) return unauthorized();
+                return ok(products);
             }
 
             // helper functions
